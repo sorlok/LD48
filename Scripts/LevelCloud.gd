@@ -3,6 +3,7 @@ extends Node
 
 export (PackedScene) var Cloud
 export (PackedScene) var CloudParticles
+export (PackedScene) var CarExplodeParticles
 
 export (PackedScene) var Car
 
@@ -54,6 +55,9 @@ func _on_CarTimer_timeout():
 	car.set_frame(rng.randi() % 3)
 	add_child(car)
 	
+	# Connect our "explode" signal
+	car.connect("car_explode", self, "_on_Car_car_explode")
+	
 	# Put the car in the right place.
 	car.position.x = rng.randf() * ($Player.screen_size.x-100) + 50
 	car.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
@@ -67,5 +71,14 @@ func _on_CarTimer_timeout():
 
 func _on_Player_collide_car(car:Node2D):
 	update_fall_speed()
-	
-	# TODO: make a car particle thing (stars?)
+
+
+func _on_Car_car_explode(car:Node2D):
+	# Make our particles
+	var parts:CPUParticles2D = CarExplodeParticles.instance()
+	parts.position = car.touch_position
+	parts.one_shot = true
+	add_child(parts)
+	parts.restart()
+
+
