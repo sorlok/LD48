@@ -19,7 +19,8 @@ height = 155.832
 [node name="Cloud" type="RigidBody2D" groups=[
 "cloud",
 ]]
-collision_mask = 0
+collision_layer = 2
+collision_mask = 2
 gravity_scale = 0.0
 script = ExtResource( 2 )
 __meta__ = {

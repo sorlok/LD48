@@ -30,6 +30,10 @@ collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource( 2 )
 
+[node name="GasPuff" parent="." instance=ExtResource( 3 )]
+position = Vector2( 67.6283, 24.4135 )
+emitting = false
+
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( -11, 0 )
 frames = SubResource( 1 )
@@ -47,10 +51,6 @@ shape = SubResource( 3 )
 
 [node name="SmokeTimer" type="Timer" parent="."]
 wait_time = 0.5
-
-[node name="GasPuff" parent="." instance=ExtResource( 3 )]
-position = Vector2( 67.6283, 24.4135 )
-emitting = false
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="SmokeTimer" to="." method="_on_SmokeTimer_timeout"]

@@ -23,6 +23,7 @@ radius = 21.3132
 height = 17.6287
 
 [node name="Player" type="Area2D"]
+collision_mask = 3
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_group_": true

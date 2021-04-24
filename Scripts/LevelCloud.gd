@@ -4,7 +4,7 @@ extends Node
 export (PackedScene) var Cloud
 export (PackedScene) var CloudParticles
 export (PackedScene) var CarExplodeParticles
-
+export (PackedScene) var Rocket
 export (PackedScene) var Car
 
 
@@ -16,6 +16,7 @@ func _ready():
 	
 	$CloudTimer.start()
 	$CarTimer.start()
+	$RocketTimer.start()
 	
 	update_fall_speed()
 
@@ -82,3 +83,19 @@ func _on_Car_car_explode(car:Node2D):
 	parts.restart()
 
 
+
+
+func _on_RocketTimer_timeout():
+	# Create a Rocket instance and add it to the scene
+	var rocket:Node = Rocket.instance()
+	add_child(rocket)
+	
+	# Put the car in the right place.
+	rocket.position.x = rng.randf() * ($Player.screen_size.x-100) + 50
+	rocket.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
+
+	# Make it move up
+	rocket.linear_velocity = Vector2(0, -1 * rand_range(rocket.min_speed, rocket.max_speed))
+	
+	# Reschedule the timer
+	$RocketTimer.wait_time = rng.randi_range(5, 10)
