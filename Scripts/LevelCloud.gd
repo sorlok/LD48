@@ -6,6 +6,7 @@ export (PackedScene) var CloudParticles
 export (PackedScene) var CarExplodeParticles
 export (PackedScene) var Rocket
 export (PackedScene) var Car
+export (PackedScene) var CarAlarm
 
 
 var rng = RandomNumberGenerator.new()
@@ -72,6 +73,11 @@ func _on_CarTimer_timeout():
 
 func _on_Player_collide_car(car:Node2D):
 	update_fall_speed()
+	
+	# Make our "alarm" visual effect
+	var alarm:Sprite = CarAlarm.instance()
+	alarm.position = car.position
+	add_child(alarm)
 
 
 func _on_Car_car_explode(car:Node2D):

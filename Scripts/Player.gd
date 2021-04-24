@@ -62,6 +62,7 @@ func _on_Player_body_entered(body:Node):
 		increase_fall_speed(10)
 		emit_signal("collide_car", body)
 		body.queue_free()
+		$AnimationPlayer.play("damage")
 		return
 
 	# For now, just die.
