@@ -64,9 +64,12 @@ func _on_Player_body_entered(body:Node):
 		body.queue_free()
 		$AnimationPlayer.play("damage")
 		return
-
-	# For now, just die.
-	#hide()
-	#$CollisionShape2D.set_deferred("disabled", true)
+	
+	if body.is_in_group("rocket") && !body.hit_player: # This doesn't destroy the rocket
+		body.hit_player = true
+		increase_fall_speed(20)
+		emit_signal("collide_car", body) # Close enough
+		$AnimationPlayer.play("damage")
+		return
 
 
