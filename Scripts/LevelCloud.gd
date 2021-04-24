@@ -2,6 +2,7 @@ extends Node
 
 
 export (PackedScene) var Cloud
+export (PackedScene) var CloudParticles
 
 
 var rng = RandomNumberGenerator.new()
@@ -29,5 +30,13 @@ func _on_CloudTimer_timeout():
 	cloud.linear_velocity = Vector2(0, -1 * rand_range(cloud.min_speed, cloud.max_speed))
 
 
-func _on_Player_fall_speed_change():
+func _on_Player_collide_cloud(cloud:Node2D):
 	update_fall_speed()
+	
+	# Make our particles
+	var parts:CPUParticles2D = CloudParticles.instance()
+	parts.position = cloud.position + Vector2(0, -60)
+	parts.one_shot = true
+	add_child(parts)
+	parts.restart()
+	

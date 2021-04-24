@@ -1,7 +1,7 @@
 extends Area2D
 
 # On collide
-signal fall_speed_change
+signal collide_cloud
 
 # Speed to move left/right
 var speed:int = 400
@@ -47,7 +47,6 @@ func _process(delta):
 
 func increase_fall_speed(amt:int):
 	fall_speed = clamp(fall_speed+amt, 0, 100)
-	emit_signal("fall_speed_change")
 
 
 func _on_Player_body_entered(body:Node):
@@ -55,6 +54,7 @@ func _on_Player_body_entered(body:Node):
 	if body.is_in_group("cloud"):
 		increase_fall_speed(-1)
 		body.queue_free()
+		emit_signal("collide_cloud", body)
 		return
 
 	# For now, just die.

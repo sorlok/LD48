@@ -13,8 +13,8 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 40.2094
-height = 66.5412
+radius = 6.67559
+height = 155.832
 
 [node name="Cloud" type="RigidBody2D" groups=[
 "cloud",
