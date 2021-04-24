@@ -13,6 +13,10 @@ var rng = RandomNumberGenerator.new()
 
 
 func _ready():
+	# Avoid potential stretching issues on windows (but we still need to stretch on Android)
+	if OS.get_name() != "Android":
+		get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, Vector2(720, 1280))
+	
 	rng.randomize()
 	
 	$CloudTimer.start()
