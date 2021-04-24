@@ -35,7 +35,7 @@ gravity_scale = 0.0
 angular_damp = 100.0
 script = ExtResource( 3 )
 
-[node name="CPUParticles2D" parent="." instance=ExtResource( 4 )]
+[node name="EnginePuff" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, 61.5183 )
 rotation = 1.5708
 texture = ExtResource( 5 )
@@ -59,4 +59,9 @@ shape = SubResource( 2 )
 position = Vector2( 1.41422, -32.8701 )
 shape = SubResource( 3 )
 
-[editable path="CPUParticles2D"]
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+
+[editable path="EnginePuff"]

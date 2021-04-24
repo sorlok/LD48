@@ -5,6 +5,7 @@ signal car_explode
 var min_speed = 350
 var max_speed = 400
 var dying = false
+var on_screen = false
 
 # Where we were pressed
 var touch_position:Vector2
@@ -14,12 +15,18 @@ func _ready():
 
 
 func _input_event(viewport, event, shape_idx):
+	if Globals.state != Globals.ST_INGAME:
+		return
+	
 	if event is InputEventMouseButton && event.is_pressed():
 		defeat(event.position)
 	elif event is InputEventScreenTouch && event.is_pressed():
 		defeat(event.psotion)
 		
 
+func stop_particles():
+	$GasPuff.emitting = false
+	$GasPuff.hide()
 
 func defeat(press_pos):
 	if dying:
@@ -51,3 +58,7 @@ func _on_SmokeTimer_timeout():
 		$SmokeTimer.wait_time = 0.5
 		
 
+
+
+func _on_VisibilityNotifier2D_screen_entered():
+	on_screen = true

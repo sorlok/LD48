@@ -8,14 +8,18 @@ export (PackedScene) var Rocket
 export (PackedScene) var Car
 export (PackedScene) var CarAlarm
 
+var player_start_pos:Vector2
 
 var rng = RandomNumberGenerator.new()
+
 
 
 func _ready():
 	# Avoid potential stretching issues on windows (but we still need to stretch on Android)
 	if OS.get_name() != "Android":
 		get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D, SceneTree.STRETCH_ASPECT_KEEP, Vector2(720, 1280))
+	
+	player_start_pos = $Player.position
 	
 	rng.randomize()
 	
@@ -29,7 +33,44 @@ func _ready():
 func update_fall_speed():
 	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
 
+
+func end_level():
+	# Only transition from ingame => ending
+	if Globals.state == Globals.ST_INGAME:
+		Globals.state = Globals.ST_ENDING
+		
+		# Avoid spawning in clouds that are already offscreen
+		var clouds = get_tree().get_nodes_in_group("cloud")
+		for cloud in clouds:
+			if !cloud.on_screen:
+				cloud.queue_free()
+			else:
+				cloud.gravity_scale = -5.0
+		
+		# Move all dangerous offscreen quickly
+		var cars = get_tree().get_nodes_in_group("car")
+		var rockets = get_tree().get_nodes_in_group("rocket")
+		for rocket in rockets:
+			cars.push_back(rocket)
+		for car in cars:
+			if !car.on_screen:
+				car.queue_free()
+			else:
+				var dir = 1
+				if car.position.x < $Player.position.x:
+					dir = -1
+				car.linear_velocity.x = 500 * dir
+				car.angular_velocity = 10 * dir
+				car.stop_particles()
+		
+		# Move the player to the middle of the screen
+		$Player.move_to(player_start_pos)
+
+
 func _on_CloudTimer_timeout():
+	if Globals.state != Globals.ST_INGAME:
+		return
+	
 	# Create a Cloud instance and add it to the scene.
 	var cloud:Node = Cloud.instance()
 	cloud.set_frame(rng.randi() % 2)
@@ -56,6 +97,9 @@ func _on_Player_collide_cloud(cloud:Node2D):
 
 
 func _on_CarTimer_timeout():
+	if Globals.state != Globals.ST_INGAME:
+		return
+	
 	# Create a Car instance and add it to the scene
 	var car:Node = Car.instance()
 	car.set_frame(rng.randi() % 3)
@@ -96,6 +140,9 @@ func _on_Car_car_explode(car:Node2D):
 
 
 func _on_RocketTimer_timeout():
+	if Globals.state != Globals.ST_INGAME:
+		return
+	
 	# Create a Rocket instance and add it to the scene
 	var rocket:Node = Rocket.instance()
 	add_child(rocket)
@@ -109,3 +156,19 @@ func _on_RocketTimer_timeout():
 	
 	# Reschedule the timer
 	$RocketTimer.wait_time = rng.randi_range(5, 10)
+
+	#
+	# TEMP: TODO: Trigger end of level.
+	#
+	end_level()
+
+
+
+
+
+#
+# TODO: Scroll in the other BG now.
+#
+func _on_Player_first_force_move_done():
+	$SkyBgEnd.position.x = 0
+	$SkyBgEnd.position.y = $Player.screen_size.y

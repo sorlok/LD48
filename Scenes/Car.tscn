@@ -52,5 +52,6 @@ shape = SubResource( 3 )
 [node name="SmokeTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="SmokeTimer" to="." method="_on_SmokeTimer_timeout"]

@@ -8,7 +8,7 @@ colors = PoolColorArray( 0.321569, 0.658824, 0.933333, 1, 0.321569, 0.658824, 0.
 gradient = SubResource( 1 )
 
 [node name="SkyBg" type="Sprite"]
-position = Vector2( 392.249, 856.406 )
+position = Vector2( 361.16, 854.185 )
 rotation = 4.71239
-scale = Vector2( 0.840669, 1011.47 )
+scale = Vector2( 0.840669, 736.8 )
 texture = SubResource( 2 )
