@@ -2,6 +2,7 @@ extends Area2D
 
 # On collide
 signal collide_cloud
+signal collide_car
 
 # Speed to move left/right
 var speed:int = 400
@@ -53,10 +54,18 @@ func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):
 		increase_fall_speed(-1)
-		body.queue_free()
 		emit_signal("collide_cloud", body)
+		body.queue_free()
+		return
+	
+	if body.is_in_group("car"):
+		increase_fall_speed(10)
+		emit_signal("collide_car", body)
+		body.queue_free()
 		return
 
 	# For now, just die.
 	#hide()
 	#$CollisionShape2D.set_deferred("disabled", true)
+
+
