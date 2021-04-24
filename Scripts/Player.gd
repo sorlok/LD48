@@ -1,10 +1,13 @@
 extends Area2D
 
 # On collide
-signal hit
+signal fall_speed_change
 
 # Speed to move left/right
 var speed:int = 400
+
+# How fast are we falling. Used for waking up calculation
+var fall_speed:int = 100
 
 # Size of the screen and margin (for clamping)
 var screen_size:Vector2
@@ -42,8 +45,18 @@ func _process(delta):
 	position.y = clamp(position.y, screen_margin_y[0], screen_size.y-screen_margin_y[1])
 
 
-func _on_Player_body_entered(body):
+func increase_fall_speed(amt:int):
+	fall_speed = clamp(fall_speed+amt, 0, 100)
+	emit_signal("fall_speed_change")
+
+
+func _on_Player_body_entered(body:Node):
+	# Clouds slow us down
+	if body.is_in_group("cloud"):
+		increase_fall_speed(-1)
+		body.queue_free()
+		return
+
 	# For now, just die.
-	hide()
-	emit_signal("hit")
-	$CollisionShape2D.set_deferred("disabled", true)
+	#hide()
+	#$CollisionShape2D.set_deferred("disabled", true)

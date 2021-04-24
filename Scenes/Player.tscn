@@ -24,6 +24,9 @@ height = 17.6287
 
 [node name="Player" type="Area2D"]
 script = ExtResource( 4 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="Node2D" type="Node2D" parent="."]
 
