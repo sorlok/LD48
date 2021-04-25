@@ -35,6 +35,7 @@ func _ready():
 
 func update_fall_speed():
 	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
+	$Progress.value = $Player.fall_speed
 
 
 func end_level(victory:bool):

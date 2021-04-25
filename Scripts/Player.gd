@@ -10,7 +10,7 @@ signal second_force_move_done  # We have touched down on the bed
 const speed:int = 400
 
 # How fast are we falling. Used for waking up calculation
-onready var fall_speed:int = 100
+onready var fall_speed:int = 50
 
 # Are we "force moving" anywhere?
 onready var force_move = null
