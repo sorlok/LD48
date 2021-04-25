@@ -11,6 +11,7 @@ export (PackedScene) var Sheep
 export (PackedScene) var Bubble
 export (PackedScene) var BubbleParticles
 export (PackedScene) var Jellyfish
+export (PackedScene) var Soda
 
 onready var player_start_pos:Vector2
 
@@ -202,8 +203,14 @@ func _on_CarTimer_timeout():
 		return
 	
 	# Create a Car instance and add it to the scene
-	var car:Node = Car.instance()
-	car.set_frame(rng.randi() % 3)
+	var car:Node
+	var level1 = Globals.level%2 == 0
+	if level1:
+		car = Car.instance()
+		car.set_frame(rng.randi() % 3)
+	else:
+		car = Soda.instance()
+		car.angular_velocity = rng.randf_range(-5, 5)
 	add_child(car)
 	
 	# Connect our "explode" signal
