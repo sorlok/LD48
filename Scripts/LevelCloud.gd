@@ -29,10 +29,25 @@ func _ready():
 	$RocketTimer.start()
 	$SheepTimer.start()
 	
-	update_fall_speed()
+	# Various level things
+	set_spawn_timer_offsets()
+	$SkyBg.set_level()
+	$SkyBgEnd.set_level()
 	
+	update_fall_speed()
+		
 	# Start gathering input
 	Globals.state = Globals.ST_INGAME
+
+
+func set_spawn_timer_offsets():
+	var good = Globals.level * 0.1
+	var bad = Globals.level * 0.2
+	$CloudTimer.wait_time = clamp($CloudTimer.wait_time-good, 0.2, 999)
+	$SheepTimer.wait_time = clamp($SheepTimer.wait_time-good, 0.2, 999)
+	$CarTimer.wait_time = clamp($CarTimer.wait_time-bad, 0.1, 999)
+	$RocketTimer.wait_time = clamp($RocketTimer.wait_time-bad, 0.1, 999)
+	
 
 
 func update_fall_speed():
@@ -135,7 +150,8 @@ func _on_SheepTimer_timeout():
 	# Make it move up
 	sheep.linear_velocity = Vector2(0, -1 * rand_range(sheep.min_speed, sheep.max_speed))
 	
-	$SheepTimer.wait_time = rng.randi_range(15, 20)
+	var good = Globals.level * 0.1
+	$SheepTimer.wait_time = clamp(rng.randi_range(15, 20)-good, 0.2, 999)
 
 
 
@@ -172,7 +188,9 @@ func _on_CarTimer_timeout():
 	car.linear_velocity = Vector2(0, -1 * rand_range(car.min_speed, car.max_speed))
 	
 	# Reschedule the timer
-	$CarTimer.wait_time = rng.randi_range(2, 4)
+	var bad = Globals.level * 0.2
+	$CarTimer.wait_time = clamp(rng.randi_range(2, 4)-bad, 0.1, 999)
+	
 
 
 func _on_Player_collide_car(car:Node2D):
@@ -212,9 +230,8 @@ func _on_RocketTimer_timeout():
 	rocket.linear_velocity = Vector2(0, -1 * rand_range(rocket.min_speed, rocket.max_speed))
 	
 	# Reschedule the timer
-	$RocketTimer.wait_time = rng.randi_range(5, 10)
-
-
+	var bad = Globals.level * 0.2
+	$RocketTimer.wait_time = clamp(rng.randi_range(5, 10)-bad, 0.1, 999)
 
 
 #
