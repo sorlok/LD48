@@ -87,7 +87,7 @@ func _on_CloudTimer_timeout():
 	#
 	# TEMP: TODO: Trigger end of level.
 	#
-	end_level(true) 
+	end_level(false)
 
 
 

@@ -10,6 +10,8 @@ func _ready():
 	$Bubble3.visible = false
 	$BubbleBig.visible = false
 	$BubbleCheck.modulate = Color(1,1,1,0)
+	$BubbleCheck/Cross.visible = false
+	$BubbleCheck/Check.visible = false
 
 
 # Can click on the button now
@@ -19,6 +21,8 @@ func thoughts_are_visible():
 
 # Animte ok/cancel depending
 func play_bubble_anim(ok:bool):
+	$BubbleCheck/Cross.visible = !ok
+	$BubbleCheck/Check.visible = ok
 	$AnimationPlayer.play("appear")
 
 

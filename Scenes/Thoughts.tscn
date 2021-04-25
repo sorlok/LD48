@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Images/Thoughts1.png" type="Texture" id=1]
 [ext_resource path="res://Images/Thoughts2.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Images/Thoughts3.png" type="Texture" id=4]
 [ext_resource path="res://Scripts/Thoughts.gd" type="Script" id=5]
 [ext_resource path="res://Images/ThoughtsCheck.png" type="Texture" id=6]
+[ext_resource path="res://Images/ThoughtsCross.png" type="Texture" id=7]
 
 [sub_resource type="Animation" id=1]
 resource_name = "Wobble"
@@ -135,13 +136,20 @@ centered = false
 offset = Vector2( 0, -155 )
 
 [node name="BubbleBig" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 3 )
 centered = false
 offset = Vector2( 0, -155 )
 
-[node name="BubbleCheck" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.6 )
+[node name="BubbleCheck" type="Node2D" parent="."]
+
+[node name="Check" type="Sprite" parent="BubbleCheck"]
 texture = ExtResource( 6 )
+centered = false
+offset = Vector2( 0, -155 )
+
+[node name="Cross" type="Sprite" parent="BubbleCheck"]
+texture = ExtResource( 7 )
 centered = false
 offset = Vector2( 0, -155 )
 
