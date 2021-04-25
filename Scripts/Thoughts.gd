@@ -2,7 +2,7 @@ extends Area2D
 
 signal button_clicked
 
-var cancel_click = true
+onready var cancel_click = true
 
 func _ready():
 	$Bubble1.visible = false

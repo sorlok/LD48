@@ -3,9 +3,9 @@ extends Node2D
 
 signal at_target_y
 
-var target_y = null
+onready var target_y = null
 
-var velocity_y = 0
+onready var velocity_y = 0
 
 
 func _process(delta):

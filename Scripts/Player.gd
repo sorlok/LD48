@@ -7,28 +7,28 @@ signal first_force_move_done   # We are at the center of the screen
 signal second_force_move_done  # We have touched down on the bed
 
 # Speed to move left/right
-var speed:int = 400
+const speed:int = 400
 
 # How fast are we falling. Used for waking up calculation
-var fall_speed:int = 100
+onready var fall_speed:int = 100
 
 # Are we "force moving" anywhere?
-var force_move = null
+onready var force_move = null
 
 # Is this move a "falling to the bed" move? If so, set this to the distance from our starting pos to the target.
-var falling_to_bed_dist = null
+onready var falling_to_bed_dist = null
 
 # When to show "hitting" the bed (y co-ord)
-var bed_hit_y = null
-var showed_bed_hit = false
+onready var bed_hit_y = null
+onready var showed_bed_hit = false
 
 # Size of the screen and margin (for clamping)
-var screen_size:Vector2
-var screen_margin_x:Vector2
-var screen_margin_y:Vector2
+onready var screen_size:Vector2
+onready var screen_margin_x:Vector2
+onready var screen_margin_y:Vector2
 
 # Did we win? (Only matters when the level is over)
-var victory:bool
+onready var victory:bool
 
 
 func _ready():

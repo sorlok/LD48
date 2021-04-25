@@ -1,9 +1,9 @@
 extends RigidBody2D
 
-var min_speed = 450
-var max_speed = 500
-var hit_player = false
-var on_screen = false
+const min_speed = 450
+const max_speed = 500
+onready var hit_player = false
+onready var on_screen = false
 
 
 func _ready():

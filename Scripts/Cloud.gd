@@ -1,9 +1,9 @@
 extends RigidBody2D
 
 
-var min_speed = 200
-var max_speed = 250
-var on_screen = false
+const min_speed = 200
+const max_speed = 250
+onready var on_screen = false
 
 
 func set_frame(fr:int):

@@ -8,9 +8,9 @@ export (PackedScene) var Rocket
 export (PackedScene) var Car
 export (PackedScene) var CarAlarm
 
-var player_start_pos:Vector2
+onready var player_start_pos:Vector2
 
-var rng = RandomNumberGenerator.new()
+onready var rng = RandomNumberGenerator.new()
 
 
 
@@ -28,6 +28,9 @@ func _ready():
 	$RocketTimer.start()
 	
 	update_fall_speed()
+	
+	# Start gathering input
+	Globals.state = Globals.ST_INGAME
 
 
 func update_fall_speed():
@@ -209,7 +212,10 @@ func _on_FallOffBedTimer_timeout():
 
 
 func _on_Thoughts_button_clicked():
-	print("GO TO NEXT/PREV level")
+	if $Player.victory:
+		print("GO TO NEXT level")
+	else:
+		get_tree().change_scene("res://Scenes/LevelCloud.tscn")
 
 
 

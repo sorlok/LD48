@@ -2,13 +2,13 @@ extends RigidBody2D
 
 signal car_explode
 
-var min_speed = 350
-var max_speed = 400
-var dying = false
-var on_screen = false
+onready var min_speed = 350
+onready var max_speed = 400
+onready var dying = false
+onready var on_screen = false
 
 # Where we were pressed
-var touch_position:Vector2
+onready var touch_position:Vector2
 
 func _ready():
 	$SmokeTimer.start()
