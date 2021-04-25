@@ -6,4 +6,9 @@ const ST_ENDING = 1
 var state = ST_INGAME
 var level = 1
 
+# Make some things easier to test
+const DMG_CAR = 10
+const DMG_ROCKET = 20
+const DMG_CLOUD = -1
+
 

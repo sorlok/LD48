@@ -150,13 +150,13 @@ func jump_into_bed():
 func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):
-		increase_fall_speed(-1)
+		increase_fall_speed(Globals.DMG_CLOUD)
 		emit_signal("collide_cloud", body)
 		body.queue_free()
 		return
 	
 	if body.is_in_group("car"):
-		increase_fall_speed(10)
+		increase_fall_speed(Globals.DMG_CAR)
 		emit_signal("collide_car", body)
 		body.queue_free()
 		$AnimationPlayer.play("damage")
@@ -164,7 +164,7 @@ func _on_Player_body_entered(body:Node):
 	
 	if body.is_in_group("rocket") && !body.hit_player: # This doesn't destroy the rocket
 		body.hit_player = true
-		increase_fall_speed(20)
+		increase_fall_speed(Globals.DMG_ROCKET)
 		emit_signal("collide_car", body) # Close enough
 		$AnimationPlayer.play("damage")
 		return

@@ -36,6 +36,12 @@ func _ready():
 func update_fall_speed():
 	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
 	$Progress.value = $Player.fall_speed
+	
+	# End game?
+	if $Player.fall_speed >= 100:
+		end_level(false)
+	elif $Player.fall_speed <= 0:
+		end_level(true)
 
 
 func end_level(victory:bool):
@@ -137,6 +143,7 @@ func _on_Player_collide_car(car:Node2D):
 	var alarm:Sprite = CarAlarm.instance()
 	alarm.position = car.position
 	add_child(alarm)
+
 
 
 func _on_Car_car_explode(car:Node2D):
