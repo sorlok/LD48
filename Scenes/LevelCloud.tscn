@@ -26,9 +26,6 @@ Car = ExtResource( 6 )
 CarAlarm = ExtResource( 9 )
 
 [node name="SkyBg" parent="." instance=ExtResource( 10 )]
-position = Vector2( 373.249, 766.925 )
-rotation = -1.5708
-scale = Vector2( 0.753284, 973.47 )
 
 [node name="SkyBgEnd" parent="." instance=ExtResource( 11 )]
 position = Vector2( 1074, -2 )
@@ -57,9 +54,11 @@ wait_time = 2.0
 [node name="RocketTimer" type="Timer" parent="."]
 wait_time = 10.0
 
+[connection signal="at_target_y" from="SkyBgEnd" to="." method="_on_SkyBgEnd_at_target_y"]
 [connection signal="collide_car" from="Player" to="." method="_on_Player_collide_car"]
 [connection signal="collide_cloud" from="Player" to="." method="_on_Player_collide_cloud"]
 [connection signal="first_force_move_done" from="Player" to="." method="_on_Player_first_force_move_done"]
+[connection signal="second_force_move_done" from="Player" to="." method="_on_Player_second_force_move_done"]
 [connection signal="timeout" from="CloudTimer" to="." method="_on_CloudTimer_timeout"]
 [connection signal="timeout" from="CarTimer" to="." method="_on_CarTimer_timeout"]
 [connection signal="timeout" from="RocketTimer" to="." method="_on_RocketTimer_timeout"]

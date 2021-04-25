@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Images/Bed.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/SkyBg.gd" type="Script" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.858896 )
@@ -17,6 +18,7 @@ colors = PoolColorArray( 0.0352941, 0.254902, 0.00392157, 1, 0.294118, 0.156863,
 gradient = SubResource( 3 )
 
 [node name="SkyBgEnd" type="Node2D"]
+script = ExtResource( 2 )
 
 [node name="Gradients" type="Sprite" parent="."]
 position = Vector2( 345.238, 360.996 )
@@ -30,5 +32,5 @@ scale = Vector2( 0.125371, 0.960714 )
 texture = SubResource( 4 )
 
 [node name="Bed" type="Sprite" parent="."]
-position = Vector2( 364.282, 544.308 )
+position = Vector2( 337.282, 544.308 )
 texture = ExtResource( 1 )

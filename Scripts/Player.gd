@@ -3,7 +3,8 @@ extends Area2D
 # On collide
 signal collide_cloud
 signal collide_car
-signal first_force_move_done
+signal first_force_move_done   # We are at the center of the screen
+signal second_force_move_done  # We have touched down on the bed
 
 # Speed to move left/right
 var speed:int = 400
@@ -13,6 +14,9 @@ var fall_speed:int = 100
 
 # Are we "force moving" anywhere?
 var force_move = null
+
+# Is this move a "falling to the bed" move? If so, set this to the distance from our starting pos to the target.
+var falling_to_bed_dist = null
 
 # Size of the screen and margin (for clamping)
 var screen_size:Vector2
@@ -32,6 +36,8 @@ func _process(delta):
 	var velocity = Vector2()
 	var min_margin = screen_margin_x[0]
 	var max_margin = screen_size.x-screen_margin_x[1]
+	var min_margin_y = screen_margin_y[0]
+	var max_margin_y = screen_size.y-screen_margin_y[1]
 	
 	if Globals.state == Globals.ST_INGAME:
 		# Move left/right with A+D
@@ -48,25 +54,44 @@ func _process(delta):
 			accX = clamp(accX, -grav, grav)
 			velocity.x += 2*speed*(accX / grav)
 	elif Globals.state == Globals.ST_ENDING:
-		if force_move != null:
+		if force_move != null:  # TODO: Just use vector math.
+			# Adjust speed based on how far we are from the destination.
+			var speed_real = speed
+			if falling_to_bed_dist != null:
+				var dist_perc = position.distance_to(force_move) / falling_to_bed_dist
+				if dist_perc < 0.5:
+					speed_real = clamp(speed * dist_perc + 0.5, speed*0.2, speed)
+					$AnimatedSprite.speed_scale = clamp(dist_perc * 2, 0, 1)
+				else:
+					speed_real *= 0.75
+			
 			if position.x < force_move.x:
-				velocity.x += speed
+				velocity.x += speed_real
 				max_margin = force_move.x
 			elif position.x > force_move.x:
-				velocity.x -= speed
+				velocity.x -= speed_real
 				min_margin = force_move.x
-
+			if position.y < force_move.y:
+				velocity.y += speed_real
+				max_margin_y = force_move.y
+			elif position.y > force_move.y:
+				velocity.y -= speed_real
+				min_margin_y = force_move.y
 
 	# Update position
 	position += velocity * delta
 	position.x = clamp(position.x, min_margin, max_margin)
-	position.y = clamp(position.y, screen_margin_y[0], screen_size.y-screen_margin_y[1])
-	
+	position.y = clamp(position.y, min_margin_y, max_margin_y)
+		
 	# Done with move?
 	# TODO: This is not the right way to do things.
-	if force_move != null && position.x == force_move.x:
-		emit_signal("first_force_move_done")
+	if force_move != null && position.x == force_move.x && position.y == force_move.y:
 		force_move = null
+		if falling_to_bed_dist == null:
+			emit_signal("first_force_move_done")
+		else:
+			emit_signal("second_force_move_done")
+			falling_to_bed_dist = null
 
 
 func increase_fall_speed(amt:int):
@@ -80,6 +105,11 @@ func increase_fall_speed(amt:int):
 func move_to(dest:Vector2):
 	force_move = dest
 
+
+func move_to_bed():
+	# Move to a position direclty on top of the bed
+	move_to(Vector2(position.x, screen_size.y - 195))
+	falling_to_bed_dist = position.distance_to(force_move)
 
 
 func _on_Player_body_entered(body:Node):

@@ -1,0 +1,25 @@
+extends Node2D
+
+
+signal at_target_y
+
+var target_y = null
+
+var velocity_y = 0
+
+
+func _process(delta):
+	# Update position
+	if target_y != null:
+		position.y += velocity_y * delta
+		if velocity_y > 0:
+			position.y = clamp(position.y, position.y, target_y)
+		else:
+			position.y = clamp(position.y, target_y, position.y)
+		
+		# Done with move?
+		if target_y == position.y:
+			target_y = null
+			emit_signal("at_target_y")
+
+

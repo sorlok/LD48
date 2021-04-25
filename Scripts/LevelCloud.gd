@@ -83,6 +83,12 @@ func _on_CloudTimer_timeout():
 	# Make it move up
 	cloud.linear_velocity = Vector2(0, -1 * rand_range(cloud.min_speed, cloud.max_speed))
 
+	#
+	# TEMP: TODO: Trigger end of level.
+	#
+	end_level()
+
+
 
 func _on_Player_collide_cloud(cloud:Node2D):
 	update_fall_speed()
@@ -157,11 +163,6 @@ func _on_RocketTimer_timeout():
 	# Reschedule the timer
 	$RocketTimer.wait_time = rng.randi_range(5, 10)
 
-	#
-	# TEMP: TODO: Trigger end of level.
-	#
-	end_level()
-
 
 
 
@@ -170,5 +171,43 @@ func _on_RocketTimer_timeout():
 # TODO: Scroll in the other BG now.
 #
 func _on_Player_first_force_move_done():
+	# Set up
 	$SkyBgEnd.position.x = 0
 	$SkyBgEnd.position.y = $Player.screen_size.y
+	
+	# Give it "velocity" and a destination
+	var amt = 708 # Distance to base
+	var mag = -400
+	$SkyBg.velocity_y = mag
+	$SkyBg.target_y = $SkyBg.position.y - amt
+	$SkyBgEnd.velocity_y = mag
+	$SkyBgEnd.target_y = $SkyBgEnd.position.y - amt
+	
+	# Start moving the player
+	$Player.move_to_bed()
+
+
+# Bed is in view
+func _on_SkyBgEnd_at_target_y():
+	pass # We don't have to do anything here; the player isn't on the bed yet.
+
+
+func _on_Player_second_force_move_done():
+	print("ON BED")
+	pass # Player is on the bed. TODO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
