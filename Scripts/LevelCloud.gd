@@ -196,10 +196,20 @@ func _on_Player_second_force_move_done():
 	# Bring up thought balloon
 	if $Player.victory:
 		$Thoughts.position = $Player.position + Vector2(-50, -100)
+		$Thoughts.play_bubble_anim($Player.victory)
 	else:
-		$Thoughts.position = $Player.position + Vector2(-30, -50)  # TODO: We should do have them stand up first
+		$FallOffBedTimer.start()
+
+
+# Show the player standing up (awake)
+func _on_FallOffBedTimer_timeout():
+	$Player.stand_up()
+	$Thoughts.position = $Player.position + Vector2(10, -80)
 	$Thoughts.play_bubble_anim($Player.victory)
-	
+
 
 func _on_Thoughts_button_clicked():
 	print("GO TO NEXT/PREV level")
+
+
+

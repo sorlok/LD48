@@ -55,6 +55,10 @@ wait_time = 2.0
 [node name="RocketTimer" type="Timer" parent="."]
 wait_time = 10.0
 
+[node name="FallOffBedTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
 [node name="Thoughts" parent="." instance=ExtResource( 12 )]
 position = Vector2( 1086.54, 956.338 )
 
@@ -66,4 +70,5 @@ position = Vector2( 1086.54, 956.338 )
 [connection signal="timeout" from="CloudTimer" to="." method="_on_CloudTimer_timeout"]
 [connection signal="timeout" from="CarTimer" to="." method="_on_CarTimer_timeout"]
 [connection signal="timeout" from="RocketTimer" to="." method="_on_RocketTimer_timeout"]
+[connection signal="timeout" from="FallOffBedTimer" to="." method="_on_FallOffBedTimer_timeout"]
 [connection signal="button_clicked" from="Thoughts" to="." method="_on_Thoughts_button_clicked"]

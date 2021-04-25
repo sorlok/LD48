@@ -18,6 +18,10 @@ var force_move = null
 # Is this move a "falling to the bed" move? If so, set this to the distance from our starting pos to the target.
 var falling_to_bed_dist = null
 
+# When to show "hitting" the bed (y co-ord)
+var bed_hit_y = null
+var showed_bed_hit = false
+
 # Size of the screen and margin (for clamping)
 var screen_size:Vector2
 var screen_margin_x:Vector2
@@ -85,7 +89,13 @@ func _process(delta):
 	position += velocity * delta
 	position.x = clamp(position.x, min_margin, max_margin)
 	position.y = clamp(position.y, min_margin_y, max_margin_y)
-		
+	
+	# Show "bed hit"
+	if bed_hit_y!=null && position.y >= bed_hit_y && !showed_bed_hit:
+		showed_bed_hit = true
+		emit_signal("collide_car", self) # Close enough
+		$AnimationPlayer.play("damage")
+	
 	# Done with move?
 	# TODO: This is not the right way to do things.
 	if force_move != null && position.x == force_move.x && position.y == force_move.y:
@@ -105,6 +115,9 @@ func _process(delta):
 			emit_signal("second_force_move_done")
 			falling_to_bed_dist = null
 
+func stand_up():
+	$AnimatedSprite.play("stand")
+	position.y -= 46
 
 func increase_fall_speed(amt:int):
 	# At least keep them safe from moving objects...
@@ -123,6 +136,7 @@ func move_to_bed():
 	var extra = 0 if victory else 82
 	move_to(Vector2(position.x, screen_size.y - 195 + extra))
 	falling_to_bed_dist = position.distance_to(force_move)
+	bed_hit_y = screen_size.y - 195
 
 
 func _on_Player_body_entered(body:Node):
