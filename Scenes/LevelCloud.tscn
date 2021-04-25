@@ -72,3 +72,4 @@ position = Vector2( 1086.54, 956.338 )
 [connection signal="timeout" from="RocketTimer" to="." method="_on_RocketTimer_timeout"]
 [connection signal="timeout" from="FallOffBedTimer" to="." method="_on_FallOffBedTimer_timeout"]
 [connection signal="button_clicked" from="Thoughts" to="." method="_on_Thoughts_button_clicked"]
+[connection signal="fadeout_done" from="Thoughts" to="." method="_on_Thoughts_fadeout_done"]

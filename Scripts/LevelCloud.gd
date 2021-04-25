@@ -215,7 +215,10 @@ func _on_Thoughts_button_clicked():
 	if $Player.victory:
 		print("GO TO NEXT level")
 	else:
-		get_tree().change_scene("res://Scenes/LevelCloud.tscn")
+		# Jump back into bed
+		$Player.jump_into_bed()
+		$Thoughts.fade_out()
 
 
-
+func _on_Thoughts_fadeout_done():
+	get_tree().change_scene("res://Scenes/LevelCloud.tscn")

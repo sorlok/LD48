@@ -139,6 +139,13 @@ func move_to_bed():
 	bed_hit_y = screen_size.y - 195
 
 
+# Instant
+func jump_into_bed():
+	position.x += 5
+	position.y = screen_size.y - 195 + 51
+	$AnimatedSprite.play("sleep")
+
+
 func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):

@@ -1,6 +1,7 @@
 extends Area2D
 
 signal button_clicked
+signal fadeout_done
 
 onready var cancel_click = true
 
@@ -12,12 +13,20 @@ func _ready():
 	$BubbleCheck.modulate = Color(1,1,1,0)
 	$BubbleCheck/Cross.visible = false
 	$BubbleCheck/Check.visible = false
+	$BubbleCheck.visible = true
 
 
 # Can click on the button now
 func thoughts_are_visible():
 	cancel_click = false
 
+
+func fade_out():
+	$AnimationPlayer.play("fade")
+
+
+func finished_fade():
+	emit_signal("fadeout_done")
 
 # Animte ok/cancel depending
 func play_bubble_anim(ok:bool):
