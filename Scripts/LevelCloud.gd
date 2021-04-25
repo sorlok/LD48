@@ -87,7 +87,7 @@ func _on_CloudTimer_timeout():
 	#
 	# TEMP: TODO: Trigger end of level.
 	#
-	end_level(false)
+	end_level(true) 
 
 
 
@@ -193,24 +193,13 @@ func _on_SkyBgEnd_at_target_y():
 
 
 func _on_Player_second_force_move_done():
+	# Bring up thought balloon
 	if $Player.victory:
-		print("ON BED: won")
+		$Thoughts.position = $Player.position + Vector2(-50, -100)
 	else:
-		print("ON BED: lost")
-	# TODO: What next?
+		$Thoughts.position = $Player.position + Vector2(-30, -50)  # TODO: We should do have them stand up first
+	$Thoughts.play_bubble_anim($Player.victory)
+	
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+func _on_Thoughts_button_clicked():
+	print("GO TO NEXT/PREV level")

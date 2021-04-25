@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/LevelCloud.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Scenes/CarAlarm.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Scenes/SkyBg.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Scenes/SkyBgEnd.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Thoughts.tscn" type="PackedScene" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
@@ -54,6 +55,9 @@ wait_time = 2.0
 [node name="RocketTimer" type="Timer" parent="."]
 wait_time = 10.0
 
+[node name="Thoughts" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1086.54, 956.338 )
+
 [connection signal="at_target_y" from="SkyBgEnd" to="." method="_on_SkyBgEnd_at_target_y"]
 [connection signal="collide_car" from="Player" to="." method="_on_Player_collide_car"]
 [connection signal="collide_cloud" from="Player" to="." method="_on_Player_collide_cloud"]
@@ -62,3 +66,4 @@ wait_time = 10.0
 [connection signal="timeout" from="CloudTimer" to="." method="_on_CloudTimer_timeout"]
 [connection signal="timeout" from="CarTimer" to="." method="_on_CarTimer_timeout"]
 [connection signal="timeout" from="RocketTimer" to="." method="_on_RocketTimer_timeout"]
+[connection signal="button_clicked" from="Thoughts" to="." method="_on_Thoughts_button_clicked"]
