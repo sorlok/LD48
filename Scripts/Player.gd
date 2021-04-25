@@ -136,7 +136,8 @@ func move_to_bed():
 	var extra = 0 if victory else 82
 	move_to(Vector2(position.x, screen_size.y - 195 + extra))
 	falling_to_bed_dist = position.distance_to(force_move)
-	bed_hit_y = screen_size.y - 195
+	if !victory:
+		bed_hit_y = screen_size.y - 195
 
 
 # Instant

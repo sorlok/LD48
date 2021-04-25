@@ -90,7 +90,7 @@ func _on_CloudTimer_timeout():
 	#
 	# TEMP: TODO: Trigger end of level.
 	#
-	end_level(false)
+	#end_level(true)
 
 
 
@@ -213,7 +213,7 @@ func _on_FallOffBedTimer_timeout():
 
 func _on_Thoughts_button_clicked():
 	if $Player.victory:
-		print("GO TO NEXT level")
+		$Thoughts.fade_out()
 	else:
 		# Jump back into bed
 		$Player.jump_into_bed()
@@ -221,4 +221,6 @@ func _on_Thoughts_button_clicked():
 
 
 func _on_Thoughts_fadeout_done():
+	if $Player.victory:
+		Globals.level += 1
 	get_tree().change_scene("res://Scenes/LevelCloud.tscn")
