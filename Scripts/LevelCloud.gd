@@ -193,7 +193,7 @@ func _on_SkyBgEnd_at_target_y():
 
 
 func _on_Player_second_force_move_done():
-	print("ON BED")
+	print("ON BED") 
 	pass # Player is on the bed. TODO
 
 

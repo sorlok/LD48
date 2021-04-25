@@ -90,6 +90,12 @@ func _process(delta):
 		if falling_to_bed_dist == null:
 			emit_signal("first_force_move_done")
 		else:
+			# Sleep position!
+			$AnimatedSprite.play("sleep")
+			position.x += 5
+			position.y += 51
+			
+			# Tell the controller
 			emit_signal("second_force_move_done")
 			falling_to_bed_dist = null
 

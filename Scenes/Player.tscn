@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Images/Person_Stand.png" type="Texture" id=1]
 [ext_resource path="res://Images/Person_Fall_1.png" type="Texture" id=2]
 [ext_resource path="res://Images/Person_Fall_2.png" type="Texture" id=3]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=4]
+[ext_resource path="res://Images/Person_Sleep.png" type="Texture" id=5]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -15,6 +16,11 @@ animations = [ {
 "frames": [ ExtResource( 1 ) ],
 "loop": true,
 "name": "stand",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 5 ) ],
+"loop": true,
+"name": "sleep",
 "speed": 5.0
 } ]
 
@@ -50,7 +56,6 @@ __meta__ = {
 position = Vector2( -27, -22 )
 frames = SubResource( 1 )
 animation = "fall"
-frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
