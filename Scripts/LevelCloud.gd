@@ -39,6 +39,9 @@ func _ready():
 	$SkyBgEnd.set_level()
 	
 	update_fall_speed()
+	
+	if Globals.level > 2:
+		$Level.text = str(Globals.level+1)
 		
 	# Start gathering input
 	Globals.state = Globals.ST_INGAME
@@ -55,7 +58,7 @@ func set_spawn_timer_offsets():
 
 
 func update_fall_speed():
-	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
+	#$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
 	$ProgressBarInNode/Progress.value = $Player.fall_speed
 	
 	# End game?

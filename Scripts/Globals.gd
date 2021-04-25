@@ -8,8 +8,9 @@ var state = ST_INGAME
 # What level are we playing?
 #  0 = sky
 #  1 = ocean
+#  2 = deep space
 #  Later = loops, faster spawning
-var level = 1
+var level = 2
 
 # Make some things easier to test
 const DMG_CAR = 10
