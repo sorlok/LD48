@@ -86,14 +86,19 @@ one_shot = true
 
 [node name="WakeUpIcon1" type="Sprite" parent="."]
 position = Vector2( 13, 0 )
+z_index = 100
 texture = ExtResource( 13 )
 offset = Vector2( 155.253, 36.527 )
 
 [node name="WakeUpIcon2" type="Sprite" parent="."]
 position = Vector2( 548.484, 36.527 )
+z_index = 100
 texture = ExtResource( 15 )
 
-[node name="Progress" type="TextureProgress" parent="."]
+[node name="ProgressBarInNode" type="Node2D" parent="."]
+z_index = 100
+
+[node name="Progress" type="TextureProgress" parent="ProgressBarInNode"]
 margin_left = 203.579
 margin_top = 22.3816
 margin_right = 503.579
@@ -108,10 +113,12 @@ __meta__ = {
 
 [node name="SheepBar" type="AnimatedSprite" parent="."]
 position = Vector2( 354.032, 70.381 )
+z_index = 100
 frames = SubResource( 2 )
 
 [node name="Thoughts" parent="." instance=ExtResource( 12 )]
 position = Vector2( 1100.79, 950.102 )
+z_index = 999
 
 [connection signal="at_target_y" from="SkyBgEnd" to="." method="_on_SkyBgEnd_at_target_y"]
 [connection signal="collide_car" from="Player" to="." method="_on_Player_collide_car"]

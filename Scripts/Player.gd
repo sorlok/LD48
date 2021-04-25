@@ -167,6 +167,7 @@ func _on_Player_body_entered(body:Node):
 		increase_sheep_count(1)
 		emit_signal("collide_sheep", body)
 		body.queue_free()
+		$AnimationPlayer.play("powerup")
 		return
 	
 	# Obstacles

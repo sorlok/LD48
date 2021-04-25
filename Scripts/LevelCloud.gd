@@ -37,7 +37,7 @@ func _ready():
 
 func update_fall_speed():
 	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
-	$Progress.value = $Player.fall_speed
+	$ProgressBarInNode/Progress.value = $Player.fall_speed
 	
 	# End game?
 	if $Player.fall_speed >= 100:
