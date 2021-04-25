@@ -8,6 +8,8 @@ export (PackedScene) var Rocket
 export (PackedScene) var Car
 export (PackedScene) var CarAlarm
 export (PackedScene) var Sheep
+export (PackedScene) var Bubble
+export (PackedScene) var BubbleParticles
 
 onready var player_start_pos:Vector2
 
@@ -107,8 +109,14 @@ func _on_CloudTimer_timeout():
 		return
 	
 	# Create a Cloud instance and add it to the scene.
-	var cloud:Node = Cloud.instance()
-	cloud.set_frame(rng.randi() % 2)
+	var level1 = Globals.level%2 == 0
+	var cloud:Node
+	if level1:
+		cloud = Cloud.instance()
+		cloud.set_frame(rng.randi() % 2)
+	else:
+		cloud = Bubble.instance()
+		cloud.set_stretch(rng.randf_range(0.4,1.2))
 	add_child(cloud)
 	
 	# Put the cloud in the right place.
@@ -116,7 +124,7 @@ func _on_CloudTimer_timeout():
 	cloud.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
 	
 	# Make it move up
-	cloud.linear_velocity = Vector2(0, -1 * rand_range(cloud.min_speed, cloud.max_speed))
+	cloud.linear_velocity = Vector2(rand_range(-25,25), -1*rand_range(cloud.min_speed, cloud.max_speed))
 
 
 
@@ -124,7 +132,12 @@ func _on_Player_collide_cloud(cloud:Node2D):
 	update_fall_speed()
 	
 	# Make our particles
-	var parts:CPUParticles2D = CloudParticles.instance()
+	var parts:CPUParticles2D
+	var level1 = Globals.level%2 == 0
+	if level1:
+		parts = CloudParticles.instance()
+	else:
+		parts = BubbleParticles.instance()
 	parts.position = cloud.position + Vector2(0, -60)
 	parts.one_shot = true
 	add_child(parts)
