@@ -10,6 +10,7 @@ export (PackedScene) var CarAlarm
 export (PackedScene) var Sheep
 export (PackedScene) var Bubble
 export (PackedScene) var BubbleParticles
+export (PackedScene) var Jellyfish
 
 onready var player_start_pos:Vector2
 
@@ -64,7 +65,11 @@ func update_fall_speed():
 
 
 func update_sheep_count():
-	$SheepBar.set_frame($Player.sheep_count)
+	var amt = $Player.sheep_count
+	if Globals.level%2==1:
+		amt += 6
+
+	$SheepBar.set_frame(amt)
 
 
 func end_level(victory:bool):
@@ -152,8 +157,14 @@ func _on_SheepTimer_timeout():
 		return
 	
 	# Create a Sheep instance and add it to the scene.
-	var sheep:Node = Sheep.instance()
-	sheep.set_frame(rng.randi() % 3)
+	var sheep:Node
+	var level1 = Globals.level%2 == 0
+	if level1:
+		sheep = Sheep.instance()
+		sheep.set_frame(rng.randi() % 3)
+	else:
+		sheep = Jellyfish.instance()
+		sheep.set_anim(rng.randi() % 2)
 	add_child(sheep)
 	
 	# Put the sheep in the right place.
@@ -173,7 +184,12 @@ func _on_Player_collide_sheep(sheep:Node2D):
 	
 	# Make our particles
 	for i in [10, -10]:
-		var parts:CPUParticles2D = CloudParticles.instance()
+		var parts:CPUParticles2D
+		var level1 = Globals.level%2 == 0
+		if level1:
+			parts = CloudParticles.instance()
+		else:
+			parts = BubbleParticles.instance()
 		parts.position = sheep.position + Vector2(i, -60+i)
 		parts.scale = Vector2(1.5,1.5)
 		parts.one_shot = true
