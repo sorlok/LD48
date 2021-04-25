@@ -34,7 +34,7 @@ func update_fall_speed():
 	$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
 
 
-func end_level():
+func end_level(victory:bool):
 	# Only transition from ingame => ending
 	if Globals.state == Globals.ST_INGAME:
 		Globals.state = Globals.ST_ENDING
@@ -64,6 +64,7 @@ func end_level():
 				car.stop_particles()
 		
 		# Move the player to the middle of the screen
+		$Player.victory = victory
 		$Player.move_to(player_start_pos)
 
 
@@ -86,7 +87,7 @@ func _on_CloudTimer_timeout():
 	#
 	# TEMP: TODO: Trigger end of level.
 	#
-	end_level()
+	end_level(false)
 
 
 
@@ -166,7 +167,6 @@ func _on_RocketTimer_timeout():
 
 
 
-
 #
 # TODO: Scroll in the other BG now.
 #
@@ -193,8 +193,11 @@ func _on_SkyBgEnd_at_target_y():
 
 
 func _on_Player_second_force_move_done():
-	print("ON BED") 
-	pass # Player is on the bed. TODO
+	if $Player.victory:
+		print("ON BED: won")
+	else:
+		print("ON BED: lost")
+	# TODO: What next?
 
 
 

@@ -23,6 +23,9 @@ var screen_size:Vector2
 var screen_margin_x:Vector2
 var screen_margin_y:Vector2
 
+# Did we win? (Only matters when the level is over)
+var victory:bool
+
 
 func _ready():
 	$AnimatedSprite.playing = true
@@ -57,7 +60,7 @@ func _process(delta):
 		if force_move != null:  # TODO: Just use vector math.
 			# Adjust speed based on how far we are from the destination.
 			var speed_real = speed
-			if falling_to_bed_dist != null:
+			if falling_to_bed_dist != null && victory: # Only slow down if we're winning
 				var dist_perc = position.distance_to(force_move) / falling_to_bed_dist
 				if dist_perc < 0.5:
 					speed_real = clamp(speed * dist_perc + 0.5, speed*0.2, speed)
@@ -90,10 +93,13 @@ func _process(delta):
 		if falling_to_bed_dist == null:
 			emit_signal("first_force_move_done")
 		else:
-			# Sleep position!
-			$AnimatedSprite.play("sleep")
-			position.x += 5
-			position.y += 51
+			# Sleep position if we won
+			if victory:
+				$AnimatedSprite.play("sleep")
+				position.x += 5
+				position.y += 51
+			else:
+				$AnimatedSprite.speed_scale = 0
 			
 			# Tell the controller
 			emit_signal("second_force_move_done")
@@ -114,7 +120,8 @@ func move_to(dest:Vector2):
 
 func move_to_bed():
 	# Move to a position direclty on top of the bed
-	move_to(Vector2(position.x, screen_size.y - 195))
+	var extra = 0 if victory else 82
+	move_to(Vector2(position.x, screen_size.y - 195 + extra))
 	falling_to_bed_dist = position.distance_to(force_move)
 
 
