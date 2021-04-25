@@ -7,6 +7,7 @@ export (PackedScene) var CarExplodeParticles
 export (PackedScene) var Rocket
 export (PackedScene) var Car
 export (PackedScene) var CarAlarm
+export (PackedScene) var Sheep
 
 onready var player_start_pos:Vector2
 
@@ -26,6 +27,7 @@ func _ready():
 	$CloudTimer.start()
 	$CarTimer.start()
 	$RocketTimer.start()
+	$SheepTimer.start()
 	
 	update_fall_speed()
 	
@@ -44,6 +46,10 @@ func update_fall_speed():
 		end_level(true)
 
 
+func update_sheep_count():
+	$SheepBar.set_frame($Player.sheep_count)
+
+
 func end_level(victory:bool):
 	# Only transition from ingame => ending
 	if Globals.state == Globals.ST_INGAME:
@@ -51,6 +57,9 @@ func end_level(victory:bool):
 		
 		# Avoid spawning in clouds that are already offscreen
 		var clouds = get_tree().get_nodes_in_group("cloud")
+		var sheeple = get_tree().get_nodes_in_group("sheep")
+		for sheep in sheeple:
+			clouds.push_back(sheep)
 		for cloud in clouds:
 			if !cloud.on_screen:
 				cloud.queue_free()
@@ -94,11 +103,6 @@ func _on_CloudTimer_timeout():
 	# Make it move up
 	cloud.linear_velocity = Vector2(0, -1 * rand_range(cloud.min_speed, cloud.max_speed))
 
-	#
-	# TEMP: TODO: Trigger end of level.
-	#
-	#end_level(true)
-
 
 
 func _on_Player_collide_cloud(cloud:Node2D):
@@ -111,6 +115,41 @@ func _on_Player_collide_cloud(cloud:Node2D):
 	add_child(parts)
 	parts.restart()
 	
+
+func _on_SheepTimer_timeout():
+	if $Player.sheep_count >= 5: # Max sheep
+		return
+	
+	if Globals.state != Globals.ST_INGAME:
+		return
+	
+	# Create a Sheep instance and add it to the scene.
+	var sheep:Node = Sheep.instance()
+	sheep.set_frame(rng.randi() % 3)
+	add_child(sheep)
+	
+	# Put the sheep in the right place.
+	sheep.position.x = rng.randf() * ($Player.screen_size.x-100) + 50
+	sheep.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
+	
+	# Make it move up
+	sheep.linear_velocity = Vector2(0, -1 * rand_range(sheep.min_speed, sheep.max_speed))
+	
+	$SheepTimer.wait_time = rng.randi_range(15, 20)
+
+
+
+func _on_Player_collide_sheep(sheep:Node2D):
+	update_sheep_count()
+	
+	# Make our particles
+	for i in [10, -10]:
+		var parts:CPUParticles2D = CloudParticles.instance()
+		parts.position = sheep.position + Vector2(i, -60+i)
+		parts.scale = Vector2(1.5,1.5)
+		parts.one_shot = true
+		add_child(parts)
+		parts.restart()
 
 
 func _on_CarTimer_timeout():
@@ -232,3 +271,10 @@ func _on_Thoughts_fadeout_done():
 	if $Player.victory:
 		Globals.level += 1
 	get_tree().change_scene("res://Scenes/LevelCloud.tscn")
+
+
+
+
+
+
+

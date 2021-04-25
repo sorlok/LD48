@@ -2,6 +2,7 @@ extends Area2D
 
 # On collide
 signal collide_cloud
+signal collide_sheep
 signal collide_car
 signal first_force_move_done   # We are at the center of the screen
 signal second_force_move_done  # We have touched down on the bed
@@ -11,6 +12,9 @@ const speed:int = 400
 
 # How fast are we falling. Used for waking up calculation
 onready var fall_speed:int = 50
+
+# How many sheep have we collected. Sheep multiply the value of clouds
+onready var sheep_count:int = 0
 
 # Are we "force moving" anywhere?
 onready var force_move = null
@@ -126,6 +130,9 @@ func increase_fall_speed(amt:int):
 	
 	fall_speed = clamp(fall_speed+amt, 0, 100)
 
+func increase_sheep_count(amt:int):
+	sheep_count = clamp(sheep_count+amt, 0, 5)
+
 
 func move_to(dest:Vector2):
 	force_move = dest
@@ -150,11 +157,19 @@ func jump_into_bed():
 func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):
-		increase_fall_speed(Globals.DMG_CLOUD)
+		increase_fall_speed(Globals.DMG_CLOUD * (sheep_count+1))
 		emit_signal("collide_cloud", body)
 		body.queue_free()
 		return
 	
+	# Sheep boost our points
+	if body.is_in_group("sheep"):
+		increase_sheep_count(1)
+		emit_signal("collide_sheep", body)
+		body.queue_free()
+		return
+	
+	# Obstacles
 	if body.is_in_group("car"):
 		increase_fall_speed(Globals.DMG_CAR)
 		emit_signal("collide_car", body)
@@ -162,6 +177,7 @@ func _on_Player_body_entered(body:Node):
 		$AnimationPlayer.play("damage")
 		return
 	
+	# Obstacles
 	if body.is_in_group("rocket") && !body.hit_player: # This doesn't destroy the rocket
 		body.hit_player = true
 		increase_fall_speed(Globals.DMG_ROCKET)

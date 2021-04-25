@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/LevelCloud.gd" type="Script" id=2]
@@ -17,10 +17,25 @@
 [ext_resource path="res://Images/Zzz.png" type="Texture" id=15]
 [ext_resource path="res://Images/ProgressBar.png" type="Texture" id=16]
 [ext_resource path="res://Images/ProgressOver.png" type="Texture" id=17]
+[ext_resource path="res://Images/SheepCount5.png" type="Texture" id=18]
+[ext_resource path="res://Images/SheepCount3.png" type="Texture" id=19]
+[ext_resource path="res://Images/SheepCount4.png" type="Texture" id=20]
+[ext_resource path="res://Images/SheepCount0.png" type="Texture" id=21]
+[ext_resource path="res://Images/SheepCount1.png" type="Texture" id=22]
+[ext_resource path="res://Images/SheepCount2.png" type="Texture" id=23]
+[ext_resource path="res://Scenes/Sheep.tscn" type="PackedScene" id=24]
 
 [sub_resource type="DynamicFont" id=1]
 size = 48
 font_data = ExtResource( 4 )
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 21 ), ExtResource( 22 ), ExtResource( 23 ), ExtResource( 19 ), ExtResource( 20 ), ExtResource( 18 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="LevelCloud" type="Node"]
 script = ExtResource( 2 )
@@ -30,6 +45,7 @@ CarExplodeParticles = ExtResource( 7 )
 Rocket = ExtResource( 8 )
 Car = ExtResource( 6 )
 CarAlarm = ExtResource( 9 )
+Sheep = ExtResource( 24 )
 
 [node name="SkyBg" parent="." instance=ExtResource( 10 )]
 
@@ -61,12 +77,12 @@ wait_time = 2.0
 [node name="RocketTimer" type="Timer" parent="."]
 wait_time = 10.0
 
+[node name="SheepTimer" type="Timer" parent="."]
+wait_time = 15.0
+
 [node name="FallOffBedTimer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
-
-[node name="Thoughts" parent="." instance=ExtResource( 12 )]
-position = Vector2( 1100.79, 950.102 )
 
 [node name="WakeUpIcon1" type="Sprite" parent="."]
 position = Vector2( 13, 0 )
@@ -90,14 +106,23 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="SheepBar" type="AnimatedSprite" parent="."]
+position = Vector2( 354.032, 70.381 )
+frames = SubResource( 2 )
+
+[node name="Thoughts" parent="." instance=ExtResource( 12 )]
+position = Vector2( 1100.79, 950.102 )
+
 [connection signal="at_target_y" from="SkyBgEnd" to="." method="_on_SkyBgEnd_at_target_y"]
 [connection signal="collide_car" from="Player" to="." method="_on_Player_collide_car"]
 [connection signal="collide_cloud" from="Player" to="." method="_on_Player_collide_cloud"]
+[connection signal="collide_sheep" from="Player" to="." method="_on_Player_collide_sheep"]
 [connection signal="first_force_move_done" from="Player" to="." method="_on_Player_first_force_move_done"]
 [connection signal="second_force_move_done" from="Player" to="." method="_on_Player_second_force_move_done"]
 [connection signal="timeout" from="CloudTimer" to="." method="_on_CloudTimer_timeout"]
 [connection signal="timeout" from="CarTimer" to="." method="_on_CarTimer_timeout"]
 [connection signal="timeout" from="RocketTimer" to="." method="_on_RocketTimer_timeout"]
+[connection signal="timeout" from="SheepTimer" to="." method="_on_SheepTimer_timeout"]
 [connection signal="timeout" from="FallOffBedTimer" to="." method="_on_FallOffBedTimer_timeout"]
 [connection signal="button_clicked" from="Thoughts" to="." method="_on_Thoughts_button_clicked"]
 [connection signal="fadeout_done" from="Thoughts" to="." method="_on_Thoughts_fadeout_done"]
