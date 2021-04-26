@@ -13,6 +13,7 @@ export (PackedScene) var BubbleParticles
 export (PackedScene) var Jellyfish
 export (PackedScene) var Soda
 export (PackedScene) var Star
+export (PackedScene) var Meteor
 
 onready var player_start_pos:Vector2
 
@@ -251,13 +252,16 @@ func _on_CarTimer_timeout():
 	
 	# Create a Car instance and add it to the scene
 	var car:Node
-	var level1 = Globals.level%2 == 0
-	if level1:
+	if Globals.rel_level() == 0:
 		car = Car.instance()
 		car.set_frame(rng.randi() % 3)
-	else:
+	elif Globals.rel_level() == 1:
 		car = Soda.instance()
 		car.angular_velocity = rng.randf_range(-5, 5)
+	else:
+		car = Meteor.instance()
+		car.angular_velocity = rng.randf_range(-8, 8)
+		car.set_stretch(rng.randf_range(0.8,1))
 	add_child(car)
 	
 	# Connect our "explode" signal
@@ -268,7 +272,13 @@ func _on_CarTimer_timeout():
 	car.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
 
 	# Make it move up
-	car.linear_velocity = Vector2(0, -1 * rand_range(car.min_speed, car.max_speed))
+	if Globals.rel_level() == 2:
+		if car.position.x < $Player.position.x:
+			car.linear_velocity = Vector2(rand_range(0, 100), -1 * rand_range(car.min_speed, car.max_speed))
+		else:
+			car.linear_velocity = Vector2(rand_range(-100, 0), -1 * rand_range(car.min_speed, car.max_speed))
+	else:
+		car.linear_velocity = Vector2(0, -1 * rand_range(car.min_speed, car.max_speed))
 	
 	# Reschedule the timer
 	var bad = Globals.level * 0.2
