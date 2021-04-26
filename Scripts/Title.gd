@@ -3,6 +3,7 @@ extends Node
 
 func _ready():
 	$SkyBg.set_level()
+	Bgm.play_music(0)
 
 
 

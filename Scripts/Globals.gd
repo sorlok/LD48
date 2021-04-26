@@ -21,6 +21,8 @@ func final_level():
 # Make some things easier to test
 const DMG_CAR = 10
 const DMG_ROCKET = 20
-const DMG_CLOUD = -1
+#const DMG_CLOUD = -1
+
+const DMG_CLOUD = -100
 
 

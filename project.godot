@@ -17,6 +17,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Globals="*res://Scripts/Globals.gd"
+Bgm="*res://Scenes/BGM.tscn"
 
 [debug]
 

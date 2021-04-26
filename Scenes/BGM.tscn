@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Music/1_the_cruise.ogg" type="AudioStream" id=1]
+[ext_resource path="res://Scripts/BGM.gd" type="Script" id=2]
+[ext_resource path="res://Music/2_open_cab.ogg" type="AudioStream" id=3]
+[ext_resource path="res://Music/3_ebb_and_flow.ogg" type="AudioStream" id=4]
+
+[node name="BGM" type="AudioStreamPlayer"]
+script = ExtResource( 2 )
+Level0Music = ExtResource( 1 )
+Level1Music = ExtResource( 3 )
+Level2Music = ExtResource( 4 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

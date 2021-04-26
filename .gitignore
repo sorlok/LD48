@@ -23,6 +23,7 @@ mono_crash.*.json
 
 # Windows
 Thumbs.db
+*.exe
 
 # Binaries (can force the final one)
 LDJam.align.out.apk.idsig

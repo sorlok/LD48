@@ -281,7 +281,6 @@ __meta__ = {
 visible = false
 position = Vector2( 347.446, 933.333 )
 frames = SubResource( 6 )
-frame = 1
 playing = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

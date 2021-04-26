@@ -41,6 +41,9 @@ func _ready():
 	if Globals.rel_level() == 2:
 		$TinyStarsTimer.start()
 	
+	# Music
+	Bgm.play_music(Globals.rel_level());
+	
 	# Various level things
 	set_spawn_timer_offsets()
 	$SkyBg.set_level()
@@ -127,6 +130,9 @@ func end_level(victory:bool):
 	# Only transition from ingame => ending
 	if Globals.state == Globals.ST_INGAME:
 		Globals.state = Globals.ST_ENDING
+		
+		# Fade out music
+		Bgm.fade_out(2)
 		
 		# Avoid spawning in clouds that are already offscreen
 		var clouds = get_tree().get_nodes_in_group("cloud")
