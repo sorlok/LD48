@@ -15,6 +15,8 @@ export (PackedScene) var Soda
 export (PackedScene) var Star
 export (PackedScene) var Meteor
 export (PackedScene) var Planet
+export (PackedScene) var Angel
+export (PackedScene) var FeatherParticles
 
 onready var player_start_pos:Vector2
 
@@ -166,22 +168,31 @@ func _on_CloudTimer_timeout():
 		return
 	
 	# Create a Cloud instance and add it to the scene.
-	var level1 = Globals.level%2 == 0
 	var cloud:Node
-	if level1:
+	if Globals.rel_level() == 0:
 		cloud = Cloud.instance()
 		cloud.set_frame(rng.randi() % 2)
-	else:
+	elif Globals.rel_level() == 1:
 		cloud = Bubble.instance()
 		cloud.set_stretch(rng.randf_range(0.4,1.2))
+	else:
+		cloud = Angel.instance()
 	add_child(cloud)
 	
 	# Put the cloud in the right place.
-	cloud.position.x = rng.randf() * ($Player.screen_size.x-100) + 50
+	var adj_amt = 0
+	if Globals.rel_level() == 2:
+		adj_amt = 50
+		if rng.randf_range(0,100) < 50:
+			adj_amt *= -1
+	cloud.position.x = rng.randf() * ($Player.screen_size.x-100) + 50 - 3*adj_amt
 	cloud.position.y = rng.randf() * 100 + 50 + $Player.screen_size.y
 	
 	# Make it move up
-	cloud.linear_velocity = Vector2(rand_range(-25,25), -1*rand_range(cloud.min_speed, cloud.max_speed))
+	if Globals.rel_level() == 2:
+		cloud.linear_velocity = Vector2(adj_amt, -1*rand_range(cloud.min_speed, cloud.max_speed))
+	else:
+		cloud.linear_velocity = Vector2(rand_range(-25,25), -1*rand_range(cloud.min_speed, cloud.max_speed))
 
 
 
@@ -196,7 +207,7 @@ func _on_Player_collide_cloud(cloud:Node2D):
 	elif level == 1:
 		parts = BubbleParticles.instance()
 	else:
-		parts = BubbleParticles.instance()  # TODO
+		parts = FeatherParticles.instance()
 	parts.position = cloud.position + Vector2(0, -60)
 	parts.one_shot = true
 	add_child(parts)
