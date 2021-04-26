@@ -5,6 +5,11 @@ export (AudioStream) var CarAlarmSound
 export (AudioStream) var RocketSound
 export (AudioStream) var SheepSound
 export (AudioStream) var BubbleSound
+export (AudioStream) var JellyfishSound
+export (AudioStream) var VictorySound
+export (AudioStream) var CanCrushSound
+export (AudioStream) var AngelSound
+export (AudioStream) var PlanetSound
 
 # On collide
 signal collide_cloud
@@ -117,6 +122,8 @@ func _process(delta):
 		else:
 			# Sleep position if we won
 			if victory:
+				$AudioStreamPlayer.stream = VictorySound
+				$AudioStreamPlayer.play()
 				$AnimatedSprite.play("sleep")
 				position.x += 5
 				position.y += 51
@@ -168,9 +175,9 @@ func _on_Player_body_entered(body:Node):
 		if Globals.rel_level() == 0:
 			$AudioStreamPlayer.stream = CloudSound
 		elif Globals.rel_level() == 1:
-			pass
+			$AudioStreamPlayer.stream = BubbleSound
 		else:
-			pass
+			$AudioStreamPlayer.stream = AngelSound
 		$AudioStreamPlayer.play()
 			
 		
@@ -181,7 +188,12 @@ func _on_Player_body_entered(body:Node):
 	
 	# Sheep boost our points
 	if body.is_in_group("sheep"):
-		$AudioStreamPlayer.stream = SheepSound
+		if Globals.rel_level() == 0:
+			$AudioStreamPlayer.stream = SheepSound
+		elif Globals.rel_level() == 1:
+			$AudioStreamPlayer.stream = JellyfishSound
+		else:
+			$AudioStreamPlayer.stream = PlanetSound
 		$AudioStreamPlayer.play()
 		
 		increase_sheep_count(1)
@@ -195,9 +207,9 @@ func _on_Player_body_entered(body:Node):
 		if Globals.rel_level() == 0:
 			$AudioStreamPlayer.stream = CarAlarmSound
 		elif Globals.rel_level() == 1:
-			pass
+			$AudioStreamPlayer.stream = CanCrushSound
 		else:
-			pass
+			$AudioStreamPlayer.stream = RocketSound
 		$AudioStreamPlayer.play()
 		
 		increase_fall_speed(Globals.DMG_CAR)

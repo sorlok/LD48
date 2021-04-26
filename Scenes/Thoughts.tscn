@@ -8,14 +8,13 @@
 [ext_resource path="res://Images/ThoughtsCheck.png" type="Texture" id=6]
 [ext_resource path="res://Images/ThoughtsCross.png" type="Texture" id=7]
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1 )
 
-[sub_resource type="GradientTexture" id=6]
-gradient = SubResource( 5 )
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
 
-[sub_resource type="Animation" id=1]
-resource_name = "Wobble"
+[sub_resource type="Animation" id=3]
 length = 3.0
 loop = true
 tracks/0/type = "value"
@@ -31,8 +30,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.05 ), Vector2( 1.05, 1.05 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "appear"
+[sub_resource type="Animation" id=4]
 length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Bubble1:visible")
@@ -136,8 +134,7 @@ tracks/7/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "fade"
+[sub_resource type="Animation" id=5]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -202,7 +199,7 @@ tracks/4/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="CapsuleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=6]
 radius = 54.6809
 height = 27.8742
 
@@ -240,7 +237,7 @@ offset = Vector2( 0, -155 )
 modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 443.379, -89.5055 )
 scale = Vector2( 1.77431, 2730.37 )
-texture = SubResource( 6 )
+texture = SubResource( 2 )
 
 [node name="BubbleCheck" type="Node2D" parent="."]
 modulate = Color( 1, 1, 1, 0.6 )
@@ -256,11 +253,11 @@ centered = false
 offset = Vector2( 0, -155 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Wobble = SubResource( 1 )
-anims/appear = SubResource( 2 )
-anims/fade = SubResource( 4 )
+anims/Wobble = SubResource( 3 )
+anims/appear = SubResource( 4 )
+anims/fade = SubResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 84.8527, -92.9844 )
 rotation = 1.5708
-shape = SubResource( 3 )
+shape = SubResource( 6 )

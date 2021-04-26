@@ -18,6 +18,9 @@ export (PackedScene) var Planet
 export (PackedScene) var Angel
 export (PackedScene) var FeatherParticles
 export (PackedScene) var RocketTapParticles
+export (AudioStream) var CarDestroyed
+export (AudioStream) var ButtonPress
+export (AudioStream) var RocketTing
 
 onready var player_start_pos:Vector2
 
@@ -325,6 +328,10 @@ func _on_Player_collide_car(car:Node2D):
 
 
 func _on_Car_car_explode(car:Node2D):
+	# Sound
+	$AudioStreamPlayer.stream = CarDestroyed
+	$AudioStreamPlayer.play()
+		
 	# Make our particles
 	var parts:CPUParticles2D = CarExplodeParticles.instance()
 	parts.position = car.touch_position
@@ -333,6 +340,10 @@ func _on_Car_car_explode(car:Node2D):
 	parts.restart()
 
 func _on_Rocket_rocket_tapped(rocket:Node2D):
+	# Sound
+	$AudioStreamPlayer.stream = RocketTing
+	$AudioStreamPlayer.play()
+	
 	# Make our particles
 	var parts:CPUParticles2D = RocketTapParticles.instance()
 	parts.position = rocket.touch_position
@@ -410,6 +421,9 @@ func _on_FallOffBedTimer_timeout():
 
 
 func _on_Thoughts_button_clicked():
+	$AudioStreamPlayer.stream = ButtonPress
+	$AudioStreamPlayer.play()
+	
 	if $Player.victory:
 		$Thoughts.fade_out()
 	else:

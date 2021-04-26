@@ -35,3 +35,4 @@ func fade_out(duration:float):
 func _on_Tween_tween_completed(object, key):
 	# Actually stop playback
 	object.stop()
+	curr_level = -1
