@@ -29,3 +29,6 @@ Thumbs.db
 LDJam.align.out.apk.idsig
 LDJam.apk.idsig
 *.apk
+*.pck
+*.x86_64
+
