@@ -18,6 +18,9 @@ signal collide_car
 signal first_force_move_done   # We are at the center of the screen
 signal second_force_move_done  # We have touched down on the bed
 
+# Which audio stream player to use for the next sound
+onready var audio = 0
+
 # Speed to move left/right
 const speed:int = 400
 
@@ -109,8 +112,7 @@ func _process(delta):
 	if bed_hit_y!=null && position.y >= bed_hit_y && !showed_bed_hit:
 		showed_bed_hit = true
 		emit_signal("collide_car", self) # Close enough
-		$AudioStreamPlayer.stream = RocketSound
-		$AudioStreamPlayer.play()
+		play_sound(RocketSound)
 		$AnimationPlayer.play("damage")
 	
 	# Done with move?
@@ -122,8 +124,7 @@ func _process(delta):
 		else:
 			# Sleep position if we won
 			if victory:
-				$AudioStreamPlayer.stream = VictorySound
-				$AudioStreamPlayer.play()
+				play_sound(VictorySound)
 				$AnimatedSprite.play("sleep")
 				position.x += 5
 				position.y += 51
@@ -133,6 +134,17 @@ func _process(delta):
 			# Tell the controller
 			emit_signal("second_force_move_done")
 			falling_to_bed_dist = null
+
+func play_sound(sound:AudioStream):
+	if audio == 0:
+		audio = 1
+		$AudioStreamPlayer.stream = sound
+		$AudioStreamPlayer.play()
+	else:
+		audio = 0
+		$AudioStreamPlayer2.stream = sound
+		$AudioStreamPlayer2.play()
+
 
 func stand_up():
 	$AnimatedSprite.play("stand")
@@ -173,13 +185,11 @@ func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):
 		if Globals.rel_level() == 0:
-			$AudioStreamPlayer.stream = CloudSound
+			play_sound(CloudSound)
 		elif Globals.rel_level() == 1:
-			$AudioStreamPlayer.stream = BubbleSound
+			play_sound(BubbleSound)
 		else:
-			$AudioStreamPlayer.stream = AngelSound
-		$AudioStreamPlayer.play()
-			
+			play_sound(AngelSound)
 		
 		increase_fall_speed(Globals.DMG_CLOUD * (sheep_count+1))
 		emit_signal("collide_cloud", body)
@@ -189,12 +199,11 @@ func _on_Player_body_entered(body:Node):
 	# Sheep boost our points
 	if body.is_in_group("sheep"):
 		if Globals.rel_level() == 0:
-			$AudioStreamPlayer.stream = SheepSound
+			play_sound(SheepSound)
 		elif Globals.rel_level() == 1:
-			$AudioStreamPlayer.stream = JellyfishSound
+			play_sound(JellyfishSound)
 		else:
-			$AudioStreamPlayer.stream = PlanetSound
-		$AudioStreamPlayer.play()
+			play_sound(PlanetSound)
 		
 		increase_sheep_count(1)
 		emit_signal("collide_sheep", body)
@@ -205,12 +214,11 @@ func _on_Player_body_entered(body:Node):
 	# Obstacles
 	if body.is_in_group("car"):
 		if Globals.rel_level() == 0:
-			$AudioStreamPlayer.stream = CarAlarmSound
+			play_sound(CarAlarmSound)
 		elif Globals.rel_level() == 1:
-			$AudioStreamPlayer.stream = CanCrushSound
+			play_sound(CanCrushSound)
 		else:
-			$AudioStreamPlayer.stream = RocketSound
-		$AudioStreamPlayer.play()
+			play_sound(RocketSound)
 		
 		increase_fall_speed(Globals.DMG_CAR)
 		emit_signal("collide_car", body)
@@ -220,8 +228,7 @@ func _on_Player_body_entered(body:Node):
 	
 	# Obstacles
 	if body.is_in_group("rocket") && !body.hit_player: # This doesn't destroy the rocket
-		$AudioStreamPlayer.stream = RocketSound
-		$AudioStreamPlayer.play()
+		play_sound(RocketSound)
 		
 		body.hit_player = true
 		increase_fall_speed(Globals.DMG_ROCKET)

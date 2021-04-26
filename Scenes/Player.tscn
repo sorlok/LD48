@@ -102,4 +102,6 @@ anims/powerup = SubResource( 4 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+
 [connection signal="body_entered" from="." to="." method="_on_Player_body_entered"]
