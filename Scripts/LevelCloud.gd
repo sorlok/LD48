@@ -12,6 +12,7 @@ export (PackedScene) var Bubble
 export (PackedScene) var BubbleParticles
 export (PackedScene) var Jellyfish
 export (PackedScene) var Soda
+export (PackedScene) var Star
 
 onready var player_start_pos:Vector2
 
@@ -33,6 +34,9 @@ func _ready():
 	$RocketTimer.start()
 	$SheepTimer.start()
 	
+	if Globals.rel_level() == 2:
+		$TinyStarsTimer.start()
+	
 	# Various level things
 	set_spawn_timer_offsets()
 	$SkyBg.set_level()
@@ -40,12 +44,48 @@ func _ready():
 	
 	update_fall_speed()
 	
+	make_stars()
+	
 	$Level.visible =  Globals.level > 2
 	$Level.text = str(Globals.level+1)
 	$EndGameLabel.modulate = Color(1, 1, 1, 0)
 		
 	# Start gathering input
 	Globals.state = Globals.ST_INGAME
+
+
+func make_stars():
+	if Globals.rel_level() == 2:
+		# Generate stars in the range of 10x10 squares (to ensure some uniformity)
+		var screen_size = $Player.screen_size
+		var tile_size = Vector2(screen_size.x/10, screen_size.y/10)
+		for i in range(0, 10*10):
+			var yRect = i / 10
+			var xRect = i % 10
+			make_star_in_box(tile_size.x*xRect, tile_size.y*yRect, tile_size.x, tile_size.y)
+		
+		# Make another row for phones
+		for xRect in range(0, 10):
+			var yRect = 10
+			make_star_in_box(tile_size.x*xRect, tile_size.y*yRect, tile_size.x, tile_size.y)
+
+func make_new_stars():
+	var screen_size = $Player.screen_size
+	var tile_size = Vector2(screen_size.x/10, screen_size.y/10)
+	for xRect in range(0, 10):
+		var yRect = 11
+		make_star_in_box(tile_size.x*xRect, tile_size.y*yRect, tile_size.x, tile_size.y)
+
+
+func make_star_in_box(xPos:int, yPos:int, wid:int, hgt:int):
+	# Randomly generate within the box
+	var star:Node = Star.instance()
+	star.position.x = rand_range(xPos, xPos+wid)
+	star.position.y = rand_range(yPos, yPos+hgt)
+	add_child(star)
+	
+	# Make it move up
+	star.linear_velocity = Vector2(0, -1*rand_range(star.min_speed, star.max_speed))
 
 
 func set_spawn_timer_offsets():
@@ -87,6 +127,9 @@ func end_level(victory:bool):
 		var sheeple = get_tree().get_nodes_in_group("sheep")
 		for sheep in sheeple:
 			clouds.push_back(sheep)
+		var stars = get_tree().get_nodes_in_group("bg_star")
+		for star in stars:
+			clouds.push_back(star)
 		for cloud in clouds:
 			if !cloud.on_screen:
 				cloud.queue_free()
@@ -335,8 +378,8 @@ func _on_Thoughts_fadeout_done():
 	get_tree().change_scene("res://Scenes/LevelCloud.tscn")
 
 
-
-
-
-
+func _on_TinyStarsTimer_timeout():
+	if Globals.state != Globals.ST_INGAME:
+		return
+	make_new_stars()
 
