@@ -17,6 +17,7 @@ export (PackedScene) var Meteor
 export (PackedScene) var Planet
 export (PackedScene) var Angel
 export (PackedScene) var FeatherParticles
+export (PackedScene) var RocketTapParticles
 
 onready var player_start_pos:Vector2
 
@@ -331,7 +332,13 @@ func _on_Car_car_explode(car:Node2D):
 	add_child(parts)
 	parts.restart()
 
-
+func _on_Rocket_rocket_tapped(rocket:Node2D):
+	# Make our particles
+	var parts:CPUParticles2D = RocketTapParticles.instance()
+	parts.position = rocket.touch_position
+	parts.one_shot = true
+	add_child(parts)
+	parts.restart()
 
 
 func _on_RocketTimer_timeout():
@@ -341,6 +348,8 @@ func _on_RocketTimer_timeout():
 	# Create a Rocket instance and add it to the scene
 	var rocket:Node = Rocket.instance()
 	add_child(rocket)
+	
+	rocket.connect("rocket_tap", self, "_on_Rocket_rocket_tapped")
 	
 	# Put the car in the right place.
 	rocket.position.x = rng.randf() * ($Player.screen_size.x-100) + 50

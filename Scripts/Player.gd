@@ -1,5 +1,11 @@
 extends Area2D
 
+export (AudioStream) var CloudSound
+export (AudioStream) var CarAlarmSound
+export (AudioStream) var RocketSound
+export (AudioStream) var SheepSound
+export (AudioStream) var BubbleSound
+
 # On collide
 signal collide_cloud
 signal collide_sheep
@@ -98,6 +104,8 @@ func _process(delta):
 	if bed_hit_y!=null && position.y >= bed_hit_y && !showed_bed_hit:
 		showed_bed_hit = true
 		emit_signal("collide_car", self) # Close enough
+		$AudioStreamPlayer.stream = RocketSound
+		$AudioStreamPlayer.play()
 		$AnimationPlayer.play("damage")
 	
 	# Done with move?
@@ -157,6 +165,15 @@ func jump_into_bed():
 func _on_Player_body_entered(body:Node):
 	# Clouds slow us down
 	if body.is_in_group("cloud"):
+		if Globals.rel_level() == 0:
+			$AudioStreamPlayer.stream = CloudSound
+		elif Globals.rel_level() == 1:
+			pass
+		else:
+			pass
+		$AudioStreamPlayer.play()
+			
+		
 		increase_fall_speed(Globals.DMG_CLOUD * (sheep_count+1))
 		emit_signal("collide_cloud", body)
 		body.queue_free()
@@ -164,6 +181,9 @@ func _on_Player_body_entered(body:Node):
 	
 	# Sheep boost our points
 	if body.is_in_group("sheep"):
+		$AudioStreamPlayer.stream = SheepSound
+		$AudioStreamPlayer.play()
+		
 		increase_sheep_count(1)
 		emit_signal("collide_sheep", body)
 		body.queue_free()
@@ -172,6 +192,14 @@ func _on_Player_body_entered(body:Node):
 	
 	# Obstacles
 	if body.is_in_group("car"):
+		if Globals.rel_level() == 0:
+			$AudioStreamPlayer.stream = CarAlarmSound
+		elif Globals.rel_level() == 1:
+			pass
+		else:
+			pass
+		$AudioStreamPlayer.play()
+		
 		increase_fall_speed(Globals.DMG_CAR)
 		emit_signal("collide_car", body)
 		body.queue_free()
@@ -180,6 +208,9 @@ func _on_Player_body_entered(body:Node):
 	
 	# Obstacles
 	if body.is_in_group("rocket") && !body.hit_player: # This doesn't destroy the rocket
+		$AudioStreamPlayer.stream = RocketSound
+		$AudioStreamPlayer.play()
+		
 		body.hit_player = true
 		increase_fall_speed(Globals.DMG_ROCKET)
 		emit_signal("collide_car", body) # Close enough
