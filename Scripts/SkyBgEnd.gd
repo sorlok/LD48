@@ -8,11 +8,15 @@ onready var target_y = null
 onready var velocity_y = 0
 
 func set_level():
-	var level1 = Globals.level%2 == 0
-	$Gradients.visible = level1
-	$Bed.visible = level1
-	$Gradients2.visible = !level1
-	$Bed2.visible = !level1
+	var level = Globals.rel_level()
+	$Gradients.visible = level == 0
+	$Bed.visible = level == 0
+	
+	$Gradients2.visible = level == 1
+	$Bed2.visible = level == 1
+
+	$Gradients3.visible = level == 2
+	$Bed3.visible = level == 2
 
 
 func _process(delta):

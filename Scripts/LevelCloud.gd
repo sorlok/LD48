@@ -40,8 +40,9 @@ func _ready():
 	
 	update_fall_speed()
 	
-	if Globals.level > 2:
-		$Level.text = str(Globals.level+1)
+	$Level.visible =  Globals.level > 2
+	$Level.text = str(Globals.level+1)
+	$EndGameLabel.modulate = Color(1, 1, 1, 0)
 		
 	# Start gathering input
 	Globals.state = Globals.ST_INGAME
@@ -59,7 +60,7 @@ func set_spawn_timer_offsets():
 
 func update_fall_speed():
 	#$FallSpeed.text = "Fall Speed: " + str($Player.fall_speed)
-	$ProgressBarInNode/Progress.value = $Player.fall_speed
+	$ProgressBarInNode/Progress.value = 100-$Player.fall_speed
 	
 	# End game?
 	if $Player.fall_speed >= 100:
@@ -303,8 +304,13 @@ func _on_Player_second_force_move_done():
 	if $Player.victory:
 		$Thoughts.position = $Player.position + Vector2(-50, -100)
 		$Thoughts.play_bubble_anim($Player.victory)
+		
+		# Special case for the "last" level
+		if Globals.final_level():
+			$AnimationPlayer.play("credits_fade")
 	else:
 		$FallOffBedTimer.start()
+
 
 
 # Show the player standing up (awake)

@@ -12,6 +12,12 @@ var state = ST_INGAME
 #  Later = loops, faster spawning
 var level = 2
 
+# Helper for getting the "right" level
+func rel_level():
+	return level % 3
+func final_level():
+	return level == 2
+
 # Make some things easier to test
 const DMG_CAR = 10
 const DMG_ROCKET = 20

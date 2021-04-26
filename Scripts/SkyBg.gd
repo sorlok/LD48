@@ -8,9 +8,10 @@ onready var target_y = null
 onready var velocity_y = 0
 
 func set_level():
-	var level1 = Globals.level%2 == 0
-	$Sky.visible = level1
-	$Ocean.visible = !level1
+	var level = Globals.rel_level()
+	$Sky.visible = level == 0
+	$Ocean.visible = level == 1
+	$Space.visible = level == 2
 
 
 func _process(delta):

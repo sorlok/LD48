@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=39 format=2]
 
 [ext_resource path="res://Scenes/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/LevelCloud.gd" type="Script" id=2]
@@ -46,6 +46,26 @@ animations = [ {
 "name": "default",
 "speed": 5.0
 } ]
+
+[sub_resource type="DynamicFont" id=3]
+size = 48
+font_data = ExtResource( 4 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "credits_fade"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("EndGameLabel:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.5, 1.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="LevelCloud" type="Node"]
 script = ExtResource( 2 )
@@ -127,9 +147,38 @@ position = Vector2( 354.032, 70.381 )
 z_index = 100
 frames = SubResource( 2 )
 
+[node name="EndGameLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -262.0
+margin_top = -411.0
+margin_right = 262.0
+margin_bottom = 411.0
+custom_fonts/font = SubResource( 3 )
+text = "Thanks for playing!
+Developed by Seth Hetu
+for Ludum Dare 48
+
+Levels will continue to
+increase in difficulty,
+but this is basically
+the end!
+
+
+"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Thoughts" parent="." instance=ExtResource( 12 )]
-position = Vector2( 1105.84, 948.42 )
+position = Vector2( 1104.16, 948.42 )
 z_index = 999
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/credits_fade = SubResource( 4 )
 
 [connection signal="at_target_y" from="SkyBgEnd" to="." method="_on_SkyBgEnd_at_target_y"]
 [connection signal="collide_car" from="Player" to="." method="_on_Player_collide_car"]
