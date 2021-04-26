@@ -14,6 +14,7 @@ export (PackedScene) var Jellyfish
 export (PackedScene) var Soda
 export (PackedScene) var Star
 export (PackedScene) var Meteor
+export (PackedScene) var Planet
 
 onready var player_start_pos:Vector2
 
@@ -112,8 +113,10 @@ func update_fall_speed():
 
 func update_sheep_count():
 	var amt = $Player.sheep_count
-	if Globals.level%2==1:
+	if Globals.rel_level() == 1:
 		amt += 6
+	elif Globals.rel_level() == 2:
+		amt += 12
 
 	$SheepBar.set_frame(amt)
 
@@ -187,11 +190,13 @@ func _on_Player_collide_cloud(cloud:Node2D):
 	
 	# Make our particles
 	var parts:CPUParticles2D
-	var level1 = Globals.level%2 == 0
-	if level1:
+	var level = Globals.rel_level()
+	if level == 0:
 		parts = CloudParticles.instance()
-	else:
+	elif level == 1:
 		parts = BubbleParticles.instance()
+	else:
+		parts = BubbleParticles.instance()  # TODO
 	parts.position = cloud.position + Vector2(0, -60)
 	parts.one_shot = true
 	add_child(parts)
@@ -207,13 +212,15 @@ func _on_SheepTimer_timeout():
 	
 	# Create a Sheep instance and add it to the scene.
 	var sheep:Node
-	var level1 = Globals.level%2 == 0
-	if level1:
+	var level = Globals.rel_level()
+	if level == 0:
 		sheep = Sheep.instance()
 		sheep.set_frame(rng.randi() % 3)
-	else:
+	elif level == 1:
 		sheep = Jellyfish.instance()
 		sheep.set_anim(rng.randi() % 2)
+	else:
+		sheep = Planet.instance()
 	add_child(sheep)
 	
 	# Put the sheep in the right place.
@@ -234,11 +241,14 @@ func _on_Player_collide_sheep(sheep:Node2D):
 	# Make our particles
 	for i in [10, -10]:
 		var parts:CPUParticles2D
-		var level1 = Globals.level%2 == 0
-		if level1:
+		var level = Globals.rel_level()
+		if level == 0:
 			parts = CloudParticles.instance()
+		elif level == 1:
+			parts = BubbleParticles.instance()
 		else:
 			parts = BubbleParticles.instance()
+			parts.hue_variation = 0.11
 		parts.position = sheep.position + Vector2(i, -60+i)
 		parts.scale = Vector2(1.5,1.5)
 		parts.one_shot = true
