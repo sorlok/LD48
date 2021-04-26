@@ -16,11 +16,11 @@ colors = PoolColorArray( 0.337255, 0.447059, 0.964706, 1, 0.0705882, 0.109804, 0
 [sub_resource type="GradientTexture" id=4]
 gradient = SubResource( 3 )
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=5]
 colors = PoolColorArray( 0, 0, 0, 1, 0, 0, 0, 1 )
 
-[sub_resource type="GradientTexture" id=5]
-gradient = SubResource( 6 )
+[sub_resource type="GradientTexture" id=6]
+gradient = SubResource( 5 )
 
 [node name="SkyBg" type="Node2D"]
 script = ExtResource( 1 )
@@ -32,13 +32,15 @@ scale = Vector2( 0.840669, 736.8 )
 texture = SubResource( 2 )
 
 [node name="Ocean" type="Sprite" parent="."]
+visible = false
 position = Vector2( 355.099, 857.032 )
 rotation = 1.5708
 scale = Vector2( 0.844902, 765.137 )
 texture = SubResource( 4 )
 
 [node name="Space" type="Sprite" parent="."]
+visible = false
 position = Vector2( 353.583, 857.032 )
 rotation = 1.5708
 scale = Vector2( 0.844902, 792.106 )
-texture = SubResource( 5 )
+texture = SubResource( 6 )
