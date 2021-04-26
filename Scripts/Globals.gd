@@ -10,7 +10,7 @@ var state = ST_INGAME
 #  1 = ocean
 #  2 = deep space
 #  Later = loops, faster spawning
-var level = 2
+var level = 0
 
 # Helper for getting the "right" level
 func rel_level():
