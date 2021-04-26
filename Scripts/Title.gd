@@ -12,3 +12,12 @@ func _on_Button_pressed():
 
 func setup_done():
 	get_tree().change_scene("res://Scenes/LevelCloud.tscn")
+
+
+func _on_Instructions_pressed():
+	if $Title/Title.visible:
+		$Title/Title.visible = false
+		$Title/Instructions.visible = true
+	else:
+		$Title/Title.visible = true
+		$Title/Instructions.visible = false

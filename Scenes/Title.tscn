@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/SkyBg.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scripts/Title.gd" type="Script" id=2]
@@ -23,6 +23,11 @@ outline_size = 1
 outline_color = Color( 0.384314, 0.666667, 1, 1 )
 font_data = ExtResource( 7 )
 
+[sub_resource type="DynamicFont" id=8]
+size = 36
+extra_spacing_bottom = -8
+font_data = ExtResource( 7 )
+
 [sub_resource type="DynamicFont" id=4]
 size = 56
 font_data = ExtResource( 7 )
@@ -42,7 +47,7 @@ animations = [ {
 [sub_resource type="Animation" id=7]
 length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Title:modulate")
+tracks/0/path = NodePath("Button:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -51,10 +56,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Vector2( 246.145, 475.222 ), Vector2( -300, 475.222 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Button:rect_position")
+tracks/1/path = NodePath("Instructions:rect_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -63,10 +68,10 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 246.145, 475.222 ), Vector2( -300, 475.222 ) ]
+"values": [ Vector2( 243, 617.335 ), Vector2( 800, 617.335 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Instructions:rect_position")
+tracks/2/path = NodePath("Think:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -75,22 +80,22 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 243, 617.335 ), Vector2( 800, 617.335 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Think:modulate")
+tracks/3/path = NodePath("Ground:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Vector2( 369.874, 1436.45 ), Vector2( 369.874, 1436.45 ), Vector2( 369.874, 2000 ) ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("Ground:position")
+tracks/4/path = NodePath("Bed:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -99,69 +104,69 @@ tracks/4/keys = {
 "times": PoolRealArray( 0, 1, 1.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 369.874, 1436.45 ), Vector2( 369.874, 1436.45 ), Vector2( 369.874, 2000 ) ]
+"values": [ Vector2( 349.525, 1069.91 ), Vector2( 349.525, 1069.91 ), Vector2( 349.525, 1633.46 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Bed:position")
+tracks/5/path = NodePath("Person:visible")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 1, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 349.525, 1069.91 ), Vector2( 349.525, 1069.91 ), Vector2( 349.525, 1633.46 ) ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Person:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
 "times": PoolRealArray( 0.1, 1.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Person2:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.1, 0.8, 1.1, 1.7, 2.2, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 347.446, 933.333 ), Vector2( 347.446, 791.667 ), Vector2( 567.307, 1087.89 ), Vector2( 567.307, 1500 ), Vector2( 319.446, 1500 ), Vector2( 319.446, 203 ) ]
+}
 tracks/7/type = "value"
-tracks/7/path = NodePath("Person2:position")
+tracks/7/path = NodePath("Person2:visible")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0.1, 0.8, 1.1, 1.7, 2.2, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 347.446, 933.333 ), Vector2( 347.446, 791.667 ), Vector2( 567.307, 1087.89 ), Vector2( 567.307, 1500 ), Vector2( 319.446, 1500 ), Vector2( 319.446, 225 ) ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("Person2:visible")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
 "times": PoolRealArray( 0.1, 1.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ false, true ]
 }
-tracks/9/type = "method"
-tracks/9/path = NodePath(".")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/keys = {
+tracks/8/type = "method"
+tracks/8/path = NodePath(".")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
 "times": PoolRealArray( 4 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "setup_done"
 } ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Title:modulate")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [node name="Title" type="Node"]
@@ -196,21 +201,50 @@ rotation = 3.14159
 scale = Vector2( 0.666667, -0.666667 )
 texture = ExtResource( 5 )
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Node2D" parent="."]
+
+[node name="Title" type="Label" parent="Title"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -123.0
-margin_top = -563.835
-margin_right = 123.0
-margin_bottom = -230.835
+margin_left = 237.0
+margin_top = 76.165
+margin_right = 483.0
+margin_bottom = 409.165
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0.0627451, 1, 1 )
 text = "Falling
 Into
 Dreams"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Instructions" type="Panel" parent="Title"]
+visible = false
+margin_left = 75.0
+margin_top = 41.8108
+margin_right = 671.0
+margin_bottom = 442.811
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Title/Instructions"]
+margin_left = 24.0
+margin_top = 24.0
+margin_right = 534.0
+margin_bottom = 369.0
+custom_fonts/font = SubResource( 8 )
+text = "Collect sleepy things and avoid
+  things that will wake you up!
+Controls:
+    Left + Right to move
+	    Tilt to move (mobile)
+	    Click/Touch to destroy
+		         some objects"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -239,7 +273,7 @@ __meta__ = {
 
 [node name="Person2" type="AnimatedSprite" parent="."]
 visible = false
-position = Vector2( 347.446, 913.095 )
+position = Vector2( 347.446, 933.333 )
 frames = SubResource( 6 )
 playing = true
 
@@ -247,3 +281,4 @@ playing = true
 anims/new_game = SubResource( 7 )
 
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="Instructions" to="." method="_on_Instructions_pressed"]
